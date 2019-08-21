@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/reiver/ii/commands"
 	"github.com/reiver/ii/sys/command"
 
 	"github.com/reiver/go-cli"
