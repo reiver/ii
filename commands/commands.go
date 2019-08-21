@@ -1,5 +1,6 @@
 package verboten
 
 import (
+	_ "github.com/reiver/ii/commands/add"
 	_ "github.com/reiver/ii/commands/init"
 )
