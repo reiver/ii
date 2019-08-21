@@ -33,6 +33,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 		fmt.Fprintf(stderr, "uh oh: %s\n", err)
 		return cli.ExitCodeIOError
 	}
+	fmt.Fprint(stdout, "initialized\n")
 
 	return cli.ExitCodeOK
 }
