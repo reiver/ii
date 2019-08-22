@@ -68,7 +68,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 			isAFile, err := isFile(path)
 			if nil != err {
 				errored = true
-				sys_uhoh.Fprintf(stderr, "something bad happened when trying to first out if %s is a file: %s\n", path, err)
+				sys_uhoh.Fprintf(stderr, "something bad happened when trying to figure out if %q is a file: %s\n", path, err)
 				continue
 			}
 			if !isAFile {
@@ -88,7 +88,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	for _, path := range command {
 		isAFile, err := isFile(path)
 		if nil != err {
-			sys_uhoh.Fprintf(stderr, "something bad happened when trying to first out if %s is a file: %s\n", path, err)
+			sys_uhoh.Fprintf(stderr, "something bad happened when trying to figure out if %q is a file: %s\n", path, err)
 			continue
 		}
 		if !isAFile {
