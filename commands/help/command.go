@@ -74,7 +74,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	}
 
 	if 0 < len(iiapps) {
-		io.WriteString(stdout, "\nThese are the installed ii apps:\n")
+		io.WriteString(stdout, "\nThese are the installed ii apps for this repo:\n")
 
 		var builder strings.Builder
 
