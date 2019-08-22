@@ -2,6 +2,7 @@ package verboten
 
 import (
 	"github.com/reiver/ii/sys/command"
+	"github.com/reiver/ii/sys/uhoh"
 
 	"github.com/reiver/go-cli"
 	"github.com/reiver/go-iirepo"
@@ -25,12 +26,12 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 
 	wd, err := os.Getwd()
 	if nil != err {
-		fmt.Fprintf(stderr, "uh oh: %s\n", err)
+		sys_uhoh.Fprintf(stderr, "%s\n", err)
 		return cli.ExitCodeOSError
 	}
 
 	if err := iirepo.Init(wd); nil != err {
-		fmt.Fprintf(stderr, "uh oh: %s\n", err)
+		sys_uhoh.Fprintf(stderr, "%s\n", err)
 		return cli.ExitCodeIOError
 	}
 	fmt.Fprint(stdout, "initialized\n")

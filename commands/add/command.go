@@ -2,6 +2,7 @@ package verboten
 
 import (
 	"github.com/reiver/ii/sys/command"
+	"github.com/reiver/ii/sys/uhoh"
 
 	"github.com/reiver/go-cli"
 	"github.com/reiver/go-iirepo"
@@ -37,7 +38,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	{
 		wd, err := os.Getwd()
 		if nil != err {
-			fmt.Fprintf(stderr, "uh oh: could not get current working directory: %s\n", err)
+			sys_uhoh.Fprintf(stderr, "could not get current working directory: %s\n", err)
 			return cli.ExitCodeOSError
 		}
 
@@ -45,9 +46,9 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 		if nil != err {
 			switch err.(type) {
 			case iirepo.NotFound:
-				fmt.Fprintf(stderr, "uh oh: no %s/ repository in current directory, or any of the parent directories.\n\nIs that what you expected?\n\nIf you want to create a new ii repo, run:\n\n\tii init\n", iirepo.Name())
+				sys_uhoh.Fprintf(stderr, "no %s/ repository in current directory, or any of the parent directories.\n\nIs that what you expected?\n\nIf you want to create a new ii repo, run:\n\n\tii init\n", iirepo.Name())
 			default:
-				fmt.Fprintf(stderr, "uh oh: something bad happened when trying to orient myself: %s\n", err)
+				sys_uhoh.Fprintf(stderr, "something bad happened when trying to orient myself: %s\n", err)
 			}
 
 			return cli.ExitCodeBadConfiguration
@@ -67,12 +68,12 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 			isAFile, err := isFile(path)
 			if nil != err {
 				errored = true
-				fmt.Fprintf(stderr, "uh oh: something bad happened when trying to first out if %s is a file: %s\n", path, err)
+				sys_uhoh.Fprintf(stderr, "something bad happened when trying to first out if %s is a file: %s\n", path, err)
 				continue
 			}
 			if !isAFile {
 				errored = true
-				fmt.Fprintf(stderr, "uh oh: cannot add this, because this is not a file: %s\n", path)
+				sys_uhoh.Fprintf(stderr, "cannot add this, because this is not a file: %s\n", path)
 				continue
 			}
 		}
@@ -87,18 +88,18 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	for _, path := range command {
 		isAFile, err := isFile(path)
 		if nil != err {
-			fmt.Fprintf(stderr, "uh oh: something bad happened when trying to first out if %s is a file: %s\n", path, err)
+			sys_uhoh.Fprintf(stderr, "something bad happened when trying to first out if %s is a file: %s\n", path, err)
 			continue
 		}
 		if !isAFile {
-			fmt.Fprintf(stderr, "uh oh: cannot add this, because this is not a file: %s\n", path)
+			sys_uhoh.Fprintf(stderr, "cannot add this, because this is not a file: %s\n", path)
 			continue
 		}
 
 		fmt.Fprintf(stdout, "adding %s ... ", path)
 		if err := iirepo_stage.StoreCopy(path); nil != err {
 			fmt.Fprint(stdout, "error!\n")
-			fmt.Fprintf(stderr, "uh oh: something bad happened when trying to stage %s: %s\n", path, err)
+			sys_uhoh.Fprintf(stderr, "something bad happened when trying to stage %s: %s\n", path, err)
 			return cli.ExitCodeError
 		}
 		fmt.Fprint(stdout, "done.\n")

@@ -2,10 +2,10 @@ package verboten
 
 import (
 	"github.com/reiver/ii/sys/command"
+	"github.com/reiver/ii/sys/uhoh"
 
 	"github.com/reiver/go-cli"
 
-	"fmt"
 	"io"
 	"strings"
 )
@@ -24,7 +24,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 
 	cs, err := sys_command.Mux.Commands()
 	if nil != err {
-		fmt.Fprintf(stderr, "uh oh: %s\n", err)
+		sys_uhoh.Fprintf(stderr, "%s\n", err)
 		return cli.ExitCodeError
 	}
 

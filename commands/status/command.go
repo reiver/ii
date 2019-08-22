@@ -2,6 +2,7 @@ package verboten
 
 import (
 	"github.com/reiver/ii/sys/command"
+	"github.com/reiver/ii/sys/uhoh"
 
 	"github.com/reiver/go-cli"
 	"github.com/reiver/go-iirepo/stage"
@@ -28,7 +29,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 
 	wd, err := os.Getwd()
 	if nil != err {
-		fmt.Fprintf(stderr, "uh oh: %s\n", err)
+		sys_uhoh.Fprintf(stderr, "%s\n", err)
 		return cli.ExitCodeOSError
 	}
 
@@ -38,7 +39,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	}
 
 	if err := iirepo_stage.Walk(wd, fn); nil != err {
-		fmt.Fprintf(stderr, "uh oh: %s\n", err)
+		sys_uhoh.Fprintf(stderr, "%s\n", err)
 		return cli.ExitCodeIOError
 	}
 
