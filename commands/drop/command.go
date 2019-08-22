@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	name []string = []string{"add"}
+	name []string = []string{"drop"}
 )
 
 func init() {
@@ -32,7 +32,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	// point of view of correctness. (Checks are also done elsewhere.)
 	//
 	// (The race condition is that the .ii/ repo could be deleted between where
-	// we check for it and find it here, versus where we try to add files to the
+	// we check for it and find it here, versus where we try to drop files to the
 	// stage later on.)
 	{
 		wd, err := os.Getwd()
@@ -56,7 +56,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 
 	// This too is intended to improve the user experience (UX).
 	//
-	// We check to see that each file that is suppose to be added to the stage, is actualy a file.
+	// We check to see that each file that is suppose to be dropped to the stage, is actualy a file.
 	//
 	// Yes, there is a race condition, but this is more cosmetic from the point of view of correctness.
 	// Checks are also done elsewhere.
@@ -72,7 +72,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 			}
 			if !isAFile {
 				errored = true
-				fmt.Fprintf(stderr, "uh oh: cannot add this, because this is not a file: %s\n", path)
+				fmt.Fprintf(stderr, "uh oh: cannot drop this, because this is not a file: %s\n", path)
 				continue
 			}
 		}
@@ -83,7 +83,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	}
 
 
-	// Try to add each file to the stage.
+	// Try to drop each file to the stage.
 	for _, path := range command {
 		isAFile, err := isFile(path)
 		if nil != err {
@@ -91,12 +91,12 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 			continue
 		}
 		if !isAFile {
-			fmt.Fprintf(stderr, "uh oh: cannot add this, because this is not a file: %s\n", path)
+			fmt.Fprintf(stderr, "uh oh: cannot drop this, because this is not a file: %s\n", path)
 			continue
 		}
 
-		fmt.Fprintf(stdout, "adding %s ... ", path)
-		if err := iirepo_stage.StoreCopy(path); nil != err {
+		fmt.Fprintf(stdout, "dropping %s ... ", path)
+		if err := iirepo_stage.StoreOriginal(path); nil != err {
 			fmt.Fprint(stdout, "error!\n")
 			fmt.Fprintf(stderr, "uh oh: something bad happened when trying to stage %s: %s\n", path, err)
 			return cli.ExitCodeError
