@@ -5,4 +5,5 @@ import (
 	_ "github.com/reiver/ii/commands/drop"
 	_ "github.com/reiver/ii/commands/help"
 	_ "github.com/reiver/ii/commands/init"
+	_ "github.com/reiver/ii/commands/status"
 )
