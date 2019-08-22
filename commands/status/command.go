@@ -34,7 +34,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 	}
 
 	fn := func(relstagedpath string) error {
-		fmt.Fprintf(stdout, "%s\n", green(relstagedpath))
+		fmt.Fprintf(stdout, "\t%s\n", green(relstagedpath))
 		return nil
 	}
 
@@ -48,7 +48,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 
 func green(s string) string {
 	var builder strings.Builder
-	builder.WriteString("\x1b[32m\t")
+	builder.WriteString("\x1b[32m")
 	builder.WriteString(s)
 	builder.WriteString("\x1b[0m")
 
