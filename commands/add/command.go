@@ -102,7 +102,7 @@ func run(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, comm
 			sys_uhoh.Fprintf(stderr, "something bad happened when trying to stage %s: %s\n", path, err)
 			return cli.ExitCodeError
 		}
-		fmt.Fprint(stdout, "done.\n")
+		fmt.Fprint(stdout, "done. 💚\n")
 	}
 
 	return cli.ExitCodeOK
